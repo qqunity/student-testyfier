@@ -1,0 +1,36 @@
+version: '3.9'
+
+volumes:
+  student_testyfier_data: {}
+
+
+services:
+  app:
+    build:
+      context: ./src
+    volumes:
+      - ./src:/app
+    command: /start.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file:
+      - ./src/.env.dev
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.5-alpine
+    volumes:
+      - student_testyfier_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: student_testyfier
+      LANG: ru_RU.UTF-8
+      LANGUAGE: ru_RU.UTF-8
+      LC_ALL: ru_RU.UTF-8
+    ports:
+      - '5434:5434'
+    command: -p 5434
