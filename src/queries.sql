@@ -54,3 +54,38 @@ from (select subject.subject_id
          join "user" on study_direction.study_direction_id = "user".study_direction_id;
 
 
+select
+    table_name,
+    pg_size_pretty(pg_total_relation_size(table_name)) as size
+from
+    (select ('"' || table_schema || '"."' || table_name || '"') as table_name
+     from information_schema.tables where table_schema = 'public') as all_tables;
+
+select
+    schemaname,
+    tablename,
+    attname as column_name,
+    pg_size_pretty(avg_width * (pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)) / NULLIF(pg_total_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)), 0))) as approx_column_size
+from
+    pg_stats
+join
+    pg_class on (pg_stats.tablename = pg_class.relname)
+join
+    pg_namespace on (pg_class.relnamespace = pg_namespace.oid)
+where
+    schemaname not in ('pg_catalog', 'information_schema')
+group by
+    schemaname,
+    tablename,
+    column_name,
+    avg_width,
+    pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)),
+    pg_total_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename))
+order by
+    schemaname,
+    tablename,
+    column_name;
+
+
+
+
