@@ -3,3 +3,6 @@ up:
 
 down:
 	docker-compose rm -fsv
+
+psql:
+	psql -p 5434 -U postgres
