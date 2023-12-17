@@ -19,8 +19,3 @@ async def recreate_db():
     db_interactions.recreate_tables()
 
     return {"message": "DB recreated successfully!"}
-
-
-@app.post("/fill-db")
-async def fill_db():
-    return {"message": "Data loaded successfully!"}

@@ -1,7 +1,6 @@
 from enum import Enum
 
-from sqlalchemy import (Column, ForeignKey, VARCHAR, CheckConstraint, BIGINT, SMALLINT, BOOLEAN, DateTime, INTEGER,
-                        Text, Interval)
+from sqlalchemy import Column, ForeignKey, VARCHAR, BIGINT, SMALLINT, BOOLEAN, Date, DateTime, Text, Interval
 from sqlalchemy.dialects.postgresql import JSONB, ENUM as PgEnum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -54,7 +53,7 @@ class User(Base):
     first_name = Column(VARCHAR(64), nullable=False)
     last_name = Column(VARCHAR(64), nullable=False)
     middle_name = Column(VARCHAR(64), nullable=True)
-    birthday = Column(DateTime, nullable=True)
+    birthday = Column(Date, nullable=True)
     gender = Column(SMALLINT, nullable=False)
     login = Column(VARCHAR(64), nullable=False, unique=True)
     password = Column(VARCHAR(64), nullable=False)
