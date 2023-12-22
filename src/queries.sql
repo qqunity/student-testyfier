@@ -1,4 +1,4 @@
-select distinct subject.subject_id
+select distinct subject.subject_id, subject.name
 from subject
          join test_subject on subject.subject_id = test_subject.subject_id
          join test on test_subject.test_id = test.test_id
